@@ -1,0 +1,137 @@
+usuarios:
+	readWrite =>   -u encargado -p qwerty123
+	read 	    =>   -u pepe -p asd456
+
+------------------------------------------------------------------
+consultas:
+	listar de mayor a menor:
+		db.productos.find().sort({precio: -1})
+
+	traer un documento con un limite
+		db.productos.find().sort({precio: 1}).limit(1)
+
+	traer un documento de otra posicion:
+		db.productos.find().sort({precio: 1})skip(1).limit(1)
+
+	traer documentos mayor precio:
+		db.productos.find({precio:{$gt:3000}})
+
+	traer documentos menor precio:
+		db.productos.find({precio:{$lte:1000}})
+
+	traer documentos que no tienen el precio indicado:
+		db.productos.find({precio:{$ne:25}})
+
+	traer documentos entre precios:
+		db.productos.find({precio:{$gte:1000, lte:3000}})
+-------------------------------------------------------------------------
+i) Listar los productos con precio menor a 1000 pesos:
+	ecommerce> db.productos.find({precio:{$lte:1000}})
+[
+  {
+    _id: ObjectId("62f2a753ad46b0bc34b007c3"),
+    nombre: 'galletitas',
+    marca: 'bagley',
+    precio: 400,
+    descripcion: 'galletitas surtidas'
+  },
+  {
+    _id: ObjectId("62f2abbaad46b0bc34b007c8"),
+    nombre: 'jugos',
+    marca: 'tang',
+    precio: 999,
+    descripcion: 'jugos en polvo'
+  },
+  {
+    _id: ObjectId("62f2f3d3f1a656c38d1b8858"),
+    nombre: 'caramelos',
+    marcar: 'media hora',
+    descripcion: ' caramelos duros',
+    precio: 650
+  },
+  {
+    _id: ObjectId("62f3f77525412a2f745407e9"),
+    nombre: 'galletitas',
+    marca: 'arcor',
+    unidades: 6,
+    precio: 750,
+    descripcion: 'cereal mix chocolate'
+  }
+]
+
+
+ii) Listar los productos con precio entre los 1000 a 3000 pesos:
+
+ecommerce> db.productos.find({precio:{$gte:1000, $lte:3000}})
+[
+  {
+    _id: ObjectId("62f2abbaad46b0bc34b007c6"),
+    nombre: 'alfajores',
+    marca: 'milka',
+    precio: 1500,
+    descripcion: 'alfajores con mus de chocolate'
+  },
+  {
+    _id: ObjectId("62f2abbaad46b0bc34b007c7"),
+    nombre: 'gaseosas',
+    marca: 'coca',
+    precio: 2400,
+    descripcion: ' gaseosa de cola'
+  },
+  {
+    _id: ObjectId("62f2afefad46b0bc34b007c9"),
+    nombre: 'muss',
+    marca: 'aguila',
+    precio: 1250,
+    descripcion: 'chocolates semi amargo'
+  },
+  {
+    _id: ObjectId("62f3f77525412a2f745407e6"),
+    nombre: 'yerba',
+    marca: 'amanda',
+    unidades: 10,
+    precio: 2850,
+    descripcion: 'yerba mate sin palos'
+  }
+]
+
+iii) Listar los productos con precio mayor a 3000 pesos:
+
+	ecommerce> db.productos.find({precio:{$gt:3000}})
+[
+  {
+    _id: ObjectId("62f3f74625412a2f745407e5"),
+    nombre: 'yerba',
+    marca: 'taragui',
+    unidades: 10,
+    precio: 3200,
+    descripcion: 'yerba mate sin palos'
+  },
+  {
+    _id: ObjectId("62f3f77525412a2f745407e7"),
+    nombre: 'azucar',
+    marca: 'ledesma',
+    unidades: 10,
+    precio: 3650,
+    descripcion: 'azucar dulce'
+  },
+  {
+    _id: ObjectId("62f3f77525412a2f745407e8"),
+    nombre: 'alfajores',
+    marca: 'guaymellen',
+    unidades: 24,
+    precio: 4100,
+    descripcion: 'alfajores de leche'
+  }
+]
+
+
+iv) Realizar una consulta que traiga sólo el nombre del tercer producto más barato.
+	
+
+ecommerce> db.productos.find({},{nombre:1}).sort({precio: -1}).skip(2).limit(1)
+[ { _id: ObjectId("62f3f74625412a2f745407e5"), nombre: 'yerba' } ]
+
+
+
+
